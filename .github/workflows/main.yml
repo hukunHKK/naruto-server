@@ -11,22 +11,16 @@ on:
       - "views/**"
 
 jobs:
-  test:
+  deploy-dev:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: print node version
+      - name: set ssh key
         run: |
-          node -v
-          npm -v
-          echo 'hello github actions'
-  test2:
-    runs-on: ubuntu-latest
-    steps:
-      - run: touch a.txt
-      - run: echo 100 > a.txt
-      - run: cat a.txt
+          mkdir -p ~/.ssh
+          echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan "42.194.247.201" >> ~/.ssh/know_hosts
+      - name: deploy
+        run: |
+          ssh root@42.194.247.201

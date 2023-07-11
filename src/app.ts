@@ -6,9 +6,9 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-// const index = require('./routes/index')
-// const users = require('./routes/users')
+import './db/index'
 import shareWebsite from './routes/shareWebsite'
+import users from './routes/users'
 // error handler
 onerror(app)
 
@@ -28,13 +28,13 @@ app.use(views(__dirname + '/views', {
 app.use(async (ctx, next) => {
   const start = new Date()
   await next()
-  const ms = new Date() - start
+  const ms = new Date().getTime() - start.getTime()
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
 // routes
 // app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
 app.use(shareWebsite.routes(), shareWebsite.allowedMethods())
 
 // error-handling
