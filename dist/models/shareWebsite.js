@@ -15,71 +15,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("sequelize"));
 const sequelize_2 = __importDefault(require("./sequelize"));
 const uuid_1 = require("uuid");
-const User = sequelize_2.default.define('user', {
-    user_id: {
-        // Sequelize module has INTEGER Data_Type.
+const Website = sequelize_2.default.define('website', {
+    site_id: {
         type: sequelize_1.default.INTEGER,
-        // To increment user_id automatically.
         autoIncrement: true,
-        // user_id can not be null.
         allowNull: false,
-        // For uniquely identify user.
         primaryKey: true
     },
     id: { type: sequelize_1.default.STRING, allowNull: false },
-    name: { type: sequelize_1.default.STRING, allowNull: false },
-    nickname: { type: sequelize_1.default.STRING, allowNull: true },
+    website: { type: sequelize_1.default.STRING, allowNull: false },
+    protocol: { type: sequelize_1.default.STRING, allowNull: false },
+    remark: { type: sequelize_1.default.STRING, allowNull: true },
+    createUser: { type: sequelize_1.default.STRING, allowNull: false },
     createdAt: sequelize_1.default.DATE,
     updatedAt: sequelize_1.default.DATE,
 });
-const users = [
+const websites = [
     {
         id: (0, uuid_1.v4)(),
-        name: '张良宇',
+        website: 'www.ikun370.xyz/index.html',
+        protocol: 'https://',
+        createUser: '胡坤',
     },
     {
         id: (0, uuid_1.v4)(),
-        name: '董君瑀',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '陈文浩',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '胡坤',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '孔伟龙',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '涂文博',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '周文杰',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '周茂',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '杨畅',
-    },
-    {
-        id: (0, uuid_1.v4)(),
-        name: '李周华',
+        website: '735hsck.cc',
+        protocol: 'http://',
+        createUser: '胡坤',
     },
 ];
 const initData = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield User.sync();
-    const count = yield User.count();
+    yield Website.sync();
+    const count = yield Website.count();
     if (count === 0) {
-        users.forEach(item => User.create(item));
+        websites.forEach(item => Website.create(item));
     }
 });
 initData();
-exports.default = User;
+exports.default = Website;

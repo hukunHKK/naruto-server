@@ -21,6 +21,7 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 require("./db/index");
 const shareWebsite_1 = __importDefault(require("./routes/shareWebsite"));
+const users_1 = __importDefault(require("./routes/users"));
 // error handler
 onerror(app);
 // middlewares
@@ -42,7 +43,7 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 // routes
 // app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
+app.use(users_1.default.routes(), users_1.default.allowedMethods());
 app.use(shareWebsite_1.default.routes(), shareWebsite_1.default.allowedMethods());
 // error-handling
 app.on('error', (err, ctx) => {

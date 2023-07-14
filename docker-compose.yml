@@ -1,0 +1,28 @@
+version: '3'
+services:
+    naruto-server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: naruto-server # 依赖于当前 Dockerfile 创建镜像
+        container_name: naruto-server
+        ports:
+            - 3000:3000 # 宿主机通过 8081 访问
+    editor-mysql:
+        image: mysql # 引用官网 mysql 镜像
+        container_name: naruto-mysql
+        restart: always
+        privileged: true # 高权限，执行下面的 mysql/init
+        command: --default-authentication-plugin=mysql_native_password # 解决无法远程访问的问题
+        ports:
+            - 3305:3306 # 宿主机可以用 127.0.0.1:3305 即可连接容器中的数据库
+        volumes:
+            - .docker-volumes/mysql/log:/var/log/mysql # 数据持久化
+            - .docker-volumes/mysql/data:/var/lib/mysql
+            - ./mysql/init:/docker-entrypoint-initdb.d/ # 初始化 sql
+        environment:
+            - MYSQL_DATABASE=naruto # 初始化容器时创建数据库
+            - MYSQL_ROOT_PASSWORD=123456
+            # - MYSQL_USER=shuangyue #创建 test 用户
+            # - MYSQL_PASSWORD=shuangyue #设置 test 用户的密码
+            - TZ=Asia/Shanghai # 设置时区
