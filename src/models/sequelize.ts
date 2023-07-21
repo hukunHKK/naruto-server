@@ -1,14 +1,10 @@
 import { Sequelize } from 'sequelize'
+import config from '../config';
 
-let host = 'localhost', port = 3305
-// if (process.env.NODE_ENV === 'prd') {
-//   host = 'naruto-mysql'
-//   port = 3305
-// }
-const sequelize = new Sequelize('naruto', 'root', '123456', {
-  host,
+const sequelize = new Sequelize('naruto', 'root', 'Mysql_2019', {
+  host: config.mysql.host,
   dialect: 'mysql',
-  port
+  port: config.mysql.port
 });
 
 export default sequelize

@@ -9,6 +9,13 @@ const router = new Router()
 
 router.post('/naruto/user/login', async function (ctx, next) {
   const { name } = ctx.request.body
+  if (name === '胡坤') {
+    ctx.body = {
+      code: 0,
+      message: '我是你爹',
+    }
+    return
+  }
   const res = await user.findOne({
     where: { name }
   })
@@ -20,7 +27,7 @@ router.post('/naruto/user/login', async function (ctx, next) {
   } else {
     ctx.body = {
       code: 0,
-      message: '查无此人',
+      message: '这是哪个沙雕',
     }
   }
 })
