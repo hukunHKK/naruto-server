@@ -1,10 +1,7 @@
 import Router from '@koa/router'
 import user from '../models/user'
-// import geoip from 'geoip-lite'
+import { sendMailer } from '../utils/nodemailer'
 
-// var ip = "112.95.173.169";
-// var geo = geoip.lookup(ip);
-// console.log(geo);
 const router = new Router()
 
 router.post('/naruto/user/login', async function (ctx, next) {
@@ -20,6 +17,48 @@ router.post('/naruto/user/login', async function (ctx, next) {
     where: { name }
   })
   if (res) {
+    const code = Math.random().toString(10).slice(-4)
+    const emailRes = await sendMailer({
+      address: res.dataValues.email,
+      code
+    })
+    if (emailRes === 0) {
+      ctx.body = {
+        code: 0,
+        message: '验证码发送失败',
+      }
+    } else {
+      await user.update({ emailCode: code }, {
+        where: {
+          name
+        }
+      })
+      ctx.body = {
+        code: 1,
+        message: '输入验证码',
+      }
+    }
+  } else {
+    ctx.body = {
+      code: 0,
+      message: '这是哪个沙雕',
+    }
+  }
+})
+
+router.post('/naruto/user/login/code', async function (ctx, next) {
+  const { name, code } = ctx.request.body
+  if (name === '胡坤') {
+    ctx.body = {
+      code: 0,
+      message: '我是你爹',
+    }
+    return
+  }
+  const res = await user.findOne({
+    where: { name, emailCode: code }
+  })
+  if (res) {
     ctx.body = {
       code: 1,
       message: '登录成功',
@@ -27,7 +66,7 @@ router.post('/naruto/user/login', async function (ctx, next) {
   } else {
     ctx.body = {
       code: 0,
-      message: '这是哪个沙雕',
+      message: '验证码错误',
     }
   }
 })
