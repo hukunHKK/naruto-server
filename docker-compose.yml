@@ -26,3 +26,13 @@ services:
             # - MYSQL_USER=shuangyue #创建 test 用户
             # - MYSQL_PASSWORD=shuangyue #设置 test 用户的密码
             - TZ=Asia/Shanghai # 设置时区
+    naruto-nginx:
+        image: nginx # 引用官网 mysql 镜像
+        container_name: naruto-nginx
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - ./config/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+            - ./config/nginx/conf/conf.d:/etc/nginx/conf.d
+            - ./dist:/usr/share/nginx/html
