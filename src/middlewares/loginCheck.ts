@@ -1,6 +1,6 @@
 import { decrypt } from "../utils/crypto"
 
-const whiteList = ['/naruto/user/login']
+const whiteList = ['/naruto/user/login', '/naruto/user/login/code']
 
 export default async (ctx, next) => {
   console.log(ctx);
