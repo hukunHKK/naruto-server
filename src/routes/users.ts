@@ -105,8 +105,6 @@ router.post('/naruto/user/websitePermission/update', async function (ctx, next) 
       name
     }
   })
-  console.log(res);
-
   ctx.body = {
     code: 1,
     message: '修改成功',
