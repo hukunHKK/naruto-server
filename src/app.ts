@@ -7,8 +7,15 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 import './db/index'
+
+// 中间件
+import loginCheck from './middlewares/loginCheck'
+
+// 路由
 import shareWebsite from './routes/shareWebsite'
 import users from './routes/users'
+import websiteVisitRecord from './routes/websiteVisitRecord'
+import loginRecord from './routes/loginRecord'
 // error handler
 onerror(app)
 
@@ -18,6 +25,7 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
+app.use(loginCheck)
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
@@ -36,6 +44,8 @@ app.use(async (ctx, next) => {
 // app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(shareWebsite.routes(), shareWebsite.allowedMethods())
+app.use(websiteVisitRecord.routes(), websiteVisitRecord.allowedMethods())
+app.use(loginRecord.routes(), loginRecord.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

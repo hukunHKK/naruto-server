@@ -1,10 +1,26 @@
 import Router from '@koa/router'
 import shareWebsite from '../models/shareWebsite'
 import { v4 as uuidv4 } from 'uuid'
+import User from '../models/user'
 
 var router = new Router()
 
 router.get('/naruto/shareWebsite/get', async (ctx, next) => {
+  const { name } = ctx.userInfo
+  const user = await User.findOne({
+    where: {
+      name,
+      websitePermission: true
+    }
+  })
+  if (!user) {
+    ctx.body = {
+      code: 0,
+      message: '先分享，拒绝白嫖',
+      data: []
+    }
+    return
+  }
   const res = await shareWebsite.findAll()
   ctx.body = {
     code: 1,

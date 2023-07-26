@@ -20,13 +20,13 @@ const Website = sequelize.define('website', {
 const websites = [
   {
     id: uuidv4(),
-    website: 'www.ikun370.xyz/index.html',
+    website: 'https://www.ikun370.xyz/index.html',
     protocol: 'https://',
     createUser: '胡坤',
   },
   {
     id: uuidv4(),
-    website: '735hsck.cc',
+    website: 'http://735hsck.cc',
     protocol: 'http://',
     createUser: '胡坤',
   },
