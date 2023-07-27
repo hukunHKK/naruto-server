@@ -17,20 +17,17 @@ router.post('/naruto/user/login', async function (ctx, next) {
       user: name,
       validUser: true
     })
+    let code = Math.random().toString(10).slice(-4)
+    let emailRes: any = 0
     if (process.env.NODE_ENV === 'dev') {
-      const { email, name, nickname, role } = res
-      ctx.body = {
-        code: 1,
-        message: '登录成功',
-        data: encrypt({ email, name, nickname, role }, true)
-      }
-      return
+      emailRes = 1
+      code = '1111'
+    } else {
+      emailRes = await sendMailer({
+        address: res.dataValues.email,
+        code
+      })
     }
-    const code = Math.random().toString(10).slice(-4)
-    const emailRes = await sendMailer({
-      address: res.dataValues.email,
-      code
-    })
     if (emailRes === 0) {
       ctx.body = {
         code: 0,
