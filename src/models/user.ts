@@ -95,5 +95,5 @@ const initData = async () => {
     users.forEach(item => User.create(item))
   }
 }
-initData()
+// initData()
 export default User
