@@ -23,7 +23,7 @@ jobs:
           ssh-keyscan "42.194.247.201" >> ~/.ssh/know_hosts
       - name: deploy
         run: |
-          ssh root@42.194.247.201 << remotessh;
+          ssh -t -t root@42.194.247.201 << remotessh;
           git pull origin main;
           docker-compose down;
           docker-compose build naruto-server;

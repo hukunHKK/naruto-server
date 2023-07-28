@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize'
 import sequelize from './sequelize'
-import { v4 as uuidv4 } from 'uuid'
 
 const WebsiteVisitRecord = sequelize.define('websiteVisitRecord', {
   record_id: {
